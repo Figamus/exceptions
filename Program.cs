@@ -37,8 +37,13 @@ namespace AddressBook {
             addressBook.AddContact (sue);
             addressBook.AddContact (juan);
 
-            // Try to addd a contact a second time
+            // Try to add a contact a second time
+            try {
             addressBook.AddContact (sue);
+            }
+            catch (ArgumentException ex) {
+                Console.WriteLine(ex.Message);
+            }
 
             // Create a list of emails that match our Contacts
             List<string> emails = new List<string> () {
@@ -51,8 +56,10 @@ namespace AddressBook {
             emails.Insert (1, "not.in.addressbook@email.com");
 
             //  Search the AddressBook by email and print the information about each Contact
-            foreach (string email in emails) {
-                Contact contact = addressBook.GetByEmail (email);
+            /*
+            foreach (string email in emails)
+            {
+                    Contact contact = addressBook.GetByEmail (email);
                 if (email == contact.Email) {
                     try {
                         Console.WriteLine ("----------------------------");
@@ -63,6 +70,23 @@ namespace AddressBook {
                         Console.WriteLine ($"No Contact Found: {ex.Message}");
                     }
                 }
+            }
+            */
+            foreach (string email in emails)
+            {
+                Console.WriteLine ("----------------------------");
+                try
+                {
+                    Contact contact = addressBook.GetByEmail (email);
+                    Console.WriteLine ($"Name: {contact.FullName}");
+                    Console.WriteLine ($"Email: {contact.Email}");
+                    Console.WriteLine ($"Address: {contact.Address}");
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    Console.WriteLine ($"contact not found {ex.Message}");
+                }
+                
             }
         }
     }
